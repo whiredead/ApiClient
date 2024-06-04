@@ -1,0 +1,62 @@
+    <div  class="layout-topbar">
+        <p-toolbar style="width: 100%; height: 100%;">
+            <div class="p-toolbar-group-start">
+
+                <a class="layout-topbar-logo" routerLink="">
+                    <img src="assets/demo/images/cropped-slm.png" alt="logo">
+                </a>
+                <button #menubutton #topbarmenu class="p-link layout-menu-button layout-topbar-button" (click)="sidebarService.sidebarVisible = true">
+                    <i class="pi pi-bars"></i>
+                </button>
+
+            </div>
+            
+
+            <div class="p-toolbar-group-center" class="flex-grow" *ngIf="items.length>0">
+
+                <p-menubar [model]="items">
+                    <ng-template pTemplate="item" let-item let-root="root">
+                        <a class="flex px-6 p-3 lg:px-3 lg:py-2 hover:text-900 hover:surface-200 font-semibold border-round cursor-pointer" 
+                            (click)="sidebarService.getMenus(item,items)"
+                            [ngClass]="{'clicked': item.isClicked}">
+                            <span>{{ item.label }}</span>
+                            <i *ngIf="item.items" [ngClass]="['pi', root ? 'pi-angle-down ml-2' : 'pi-angle-right ml-auto']"></i>
+                        </a>
+                    </ng-template>
+                </p-menubar>
+
+            </div>
+
+            <div class="p-toolbar-group-right">
+                <div #topbarmenu  class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}" >
+                
+                    <div *ngIf="(authService.user$ | async) as user">
+                        <button class="p-link layout-topbar-button" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"  [rounded]="true" severity="secondary">
+                            <i class="pi pi-user"></i> 
+                            <span>{{user.firstName}}</span>       
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item >
+                                <span>mon profil</span>
+                            </button>
+                            <button mat-menu-item (click)="authService.logout()">
+                                <span>logout</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+                    
+
+                    <button *ngIf="!(authService.user$ | async)" pButton pRipple type="button"  style="margin-left: 20px; color:var(--bluegray-900)" class="p-button-raised p-button-secondary" [routerLink]="'/auth/connecter'" label="login" ></button>
+                </div>
+            </div>
+            <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button" (click)="layoutService.showProfileSidebar()">
+                <i class="pi pi-ellipsis-v"></i>
+            </button>
+    </p-toolbar>
+    </div>
+<app-sidebar></app-sidebar>
+<style>
+    .clicked {
+        color: red; /* Change this to your desired color */
+    }
+</style>

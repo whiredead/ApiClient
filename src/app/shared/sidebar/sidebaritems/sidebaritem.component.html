@@ -1,0 +1,30 @@
+<ul class="list-none">
+    <li *ngFor="let item of item.items">
+
+        <ul *ngIf="!item.hasChild" class="flex list-none align-items-center cursor-pointer p-3 border-round text-600 hover:surface-100 transition-duration-150 transition-colors">
+            <li>
+                <div pRipple class=" flex p-3 cursor-pointer p-3 border-round text-600 hover:surface-100 transition-duration-150 transition-colors hover:surface-100 text-600 hover:text-400" >
+                    <a pRipple [routerLink]="item.url" style="color: brown;">
+                        <span class="font-medium">{{item.label}}</span>
+                    </a>
+                </div>
+            </li>
+        </ul>
+
+        <ul *ngIf="item.hasChild" class="list-none flex p-3 align-items-center cursor-pointer">
+            <li>
+                <div class="flex list-none align-items-center cursor-pointer p-3 border-round text-600 hover:surface-100 transition-duration-150 transition-colors" 
+                    pRipple pStyleClass="@next" enterFromClass="hidden" enterActiveClass="slidedown" leaveToClass="hidden" leaveActiveClass="slideup" >
+                    <a pRipple style="color:brown;">
+                        <span class="font-medium">{{item.label}}</span>
+                        <i class="pi pi-chevron-down"></i>
+                    </a>
+                </div>
+                <app-sidebaritem [item]="item"></app-sidebaritem>
+
+            </li>
+                
+        </ul>
+        
+    </li>
+</ul>
